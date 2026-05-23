@@ -1,5 +1,4 @@
 import turtle as t
-from xml.dom.xmlbuilder import DOMEntityResolver
 
 POSITION = [(0,0), (-20,0), (-40,0)]
 
