@@ -67,6 +67,8 @@ This project was created as part of my Python learning journey through Angela Yu
 
 Some parts were guided by the course, while others were adjusted and organized by me during practice.
 
+After completing the original project, I revisited it later and added additional features such as a persistent high score system and a restart button. Some implementation details were explored and refined with the help of AI as part of the learning process.
+
 ---
 
 ## Author
