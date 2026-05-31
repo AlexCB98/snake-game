@@ -15,40 +15,63 @@ snake = Snake()
 food = Food()
 scoreboard = Scoreboard()
 
+restart_button = t.Turtle()
+restart_button.color('white')
+restart_button.penup()
+restart_button.hideturtle()
+restart_button.goto(0, 0)
+
+
+def restart_game(x, y):
+    global game_is_on
+
+    if not game_is_on and -60 < x < 60 and -20 < y < 20:
+        restart_button.clear()
+        snake.reset()
+        food.refresh()
+        game_is_on = True
+
+
 screen.listen()
 screen.onkey(snake.up, 'Up')
 screen.onkey(snake.down, 'Down')
 screen.onkey(snake.left, 'Left')
 screen.onkey(snake.right, 'Right')
+screen.onclick(restart_game)
 
 
 
 game_is_on = True
 
-while game_is_on:
+while True:
     screen.update()
-    time.sleep(0.1)
-    snake.move()
+    time.sleep(0.05)
 
-    # Collision with food and extend.
+    if game_is_on:
+        snake.move()
 
-    if snake.head.distance(food) < 15:
-        food.refresh()
-        snake.extend()
-        scoreboard.increase_score()
+        # Collision with food and extend.
 
-    # Collision with wall.
+        if snake.head.distance(food) < 15:
+            food.refresh()
+            snake.extend()
+            scoreboard.increase_score()
 
-    if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
-        game_is_on = False
-        scoreboard.game_over()
+        # Collision with wall.
 
-    # Collision with tail.
-
-    for segment in snake.segments[1:]:
-        if snake.head.distance(segment) < 10:
+        if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
+            scoreboard.reset()
             game_is_on = False
-            scoreboard.game_over()
+            restart_button.write('Restart', align='center', font=('Courier', 20, 'normal'))
+
+        # Collision with tail.
+
+        if game_is_on:
+            for segment in snake.segments[2:]:
+                if snake.head.distance(segment) < 8:
+                    scoreboard.reset()
+                    game_is_on = False
+                    restart_button.write('Restart', align='center', font=('Courier', 20, 'normal'))
 
 
 

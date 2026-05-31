@@ -2,7 +2,7 @@ import turtle as t
 
 POSITION = [(0,0), (-20,0), (-40,0)]
 
-MOVE = 20
+MOVE = 10
 
 UP = 90
 DOWN = 270
@@ -15,12 +15,11 @@ class Snake:
         self.segments = []
         self.create_snake()
         self.head = self.segments[0]
-        self.head.color('orange')
+        self.can_turn = True
 
     def create_snake(self):
         for each_position in POSITION:
             self.add_segment(each_position)
-
 
     def add_segment(self, each_position):
         segment = t.Turtle('circle')
@@ -28,6 +27,14 @@ class Snake:
         segment.penup()
         segment.goto(each_position)
         self.segments.append(segment)
+
+    def reset(self):
+        for seg in self.segments:
+            seg.goto(5000,5000)
+        self.segments.clear()
+        self.create_snake()
+        self.head = self.segments[0]
+        self.can_turn = True
 
     def extend(self):
         self.add_segment(self.segments[-1].position())
@@ -38,21 +45,26 @@ class Snake:
             new_y = self.segments[seg_n - 1].ycor()
             self.segments[seg_n].goto(new_x, new_y)
         self.segments[0].forward(MOVE)
+        self.can_turn = True
 
     def up(self):
-        if self.head.heading() != DOWN:
+        if self.can_turn and self.head.heading() != DOWN:
             self.head.setheading(UP)
+            self.can_turn = False
 
     def down(self):
-        if self.head.heading() != UP:
+        if self.can_turn and self.head.heading() != UP:
             self.head.setheading(DOWN)
+            self.can_turn = False
 
     def left(self):
-        if self.head.heading() != RIGHT:
+        if self.can_turn and self.head.heading() != RIGHT:
             self.head.setheading(LEFT)
+            self.can_turn = False
 
     def right(self):
-        if self.head.heading() != LEFT:
+        if self.can_turn and self.head.heading() != LEFT:
             self.head.setheading(RIGHT)
+            self.can_turn = False
 
 
